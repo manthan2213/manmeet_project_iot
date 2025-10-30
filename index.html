@@ -26,7 +26,9 @@
     <section id="intro" class="panel reveal">
       <div class="container">
         <h2>Introduction</h2>
-        <p class="lead">This project automatically controls a lamp based on ambient light. The LDR senses light level and an Arduino UNO toggles a lamp via a relay (or an LED for demo). It’s perfect for energy saving, hands-free lighting, and IoT learning.</p>
+        <p class="lead">This project is designed to automatically control a lamp based on the surrounding light intensity. It uses an LDR (Light Dependent Resistor) sensor to continuously monitor the brightness of the environment. When the light level drops below a certain threshold — such as during evening or in dark conditions — the Arduino UNO processes the sensor data and switches the lamp ON through a relay module (or an LED for demonstration purposes). Similarly, when sufficient daylight is detected, the lamp automatically turns OFF.
+
+This system provides an efficient, hands-free solution for smart lighting control. It helps conserve energy by ensuring that lights are only used when necessary, making it ideal for use in homes, streets, and offices. Moreover, it serves as an excellent beginner-level IoT and automation project, helping learners understand how sensors, microcontrollers, and electronic components interact to create real-world applications.</p>
       </div>
     </section>
 
@@ -36,27 +38,27 @@
         <p>All the hardware used in the project (small icons provided):</p>
         <ul class="components-grid">
           <li>
-            <img src="assets/breadboard.svg" alt="Mini Breadboard"/>
+            <img src="assets/breadboard.jpg" alt="Mini Breadboard"/>
             <strong>Mini Breadboard</strong>
           </li>
           <li>
-            <img src="assets/jumper.svg" alt="Jumper Wires"/>
+            <img src="assets/jumper wires.jpg" alt="Jumper Wires"/>
             <strong>Jumper Wires</strong>
           </li>
           <li>
-            <img src="assets/resistor.svg" alt="Resistor"/>
+            <img src="assets/resistor.png" alt="Resistor"/>
             <strong>Resistor</strong>
           </li>
           <li>
-            <img src="assets/arduino.svg" alt="Arduino UNO"/>
+            <img src="assets/Arduino_uno.png" alt="Arduino UNO"/>
             <strong>Arduino UNO</strong>
           </li>
           <li>
-            <img src="assets/ldr.svg" alt="LDR Sensor"/>
+            <img src="assets/ldr_semsor.png" alt="LDR Sensor"/>
             <strong>LDR Sensor</strong>
           </li>
           <li>
-            <img src="assets/bulb.svg" alt="Bulb"/>
+            <img src="assets/led.png" alt="Bulb"/>
             <strong>Bulb (lamp / relay)</strong>
           </li>
         </ul>
@@ -111,40 +113,24 @@
         <h2>Arduino Sketch</h2>
         <p>Below is a tested example sketch that reads an LDR on A0 and toggles a lamp/relay on D8. Replace the threshold or pins to match your wiring.</p>
         <pre><code class="arduino">// Automatic Night Lamp System
-// LDR on A0 (voltage divider). Relay or LED on D8.
-
-const int ldrPin = A0;      // LDR connected to analog pin A0
-const int lampPin = 8;      // Relay or LED connected to digital pin 8
-int threshold = 500;        // Adjust this threshold for your environment (0-1023)
-unsigned long debounceDelay = 200; // ms
-
-unsigned long lastToggle = 0;
-int lampState = LOW;
-
-void setup() {
+// C++ code
+//
+void setup()
+{
   Serial.begin(9600);
-  pinMode(lampPin, OUTPUT);
-  digitalWrite(lampPin, lampState);
+  pinMode(4, OUTPUT);
 }
 
-void loop() {
-  int sensorValue = analogRead(ldrPin);
-  Serial.print("LDR: "); Serial.println(sensorValue);
-
-  // Simple hysteresis: only toggle after debounceDelay
-  if (millis() - lastToggle > debounceDelay) {
-    if (sensorValue < threshold && lampState == LOW) {
-      lampState = HIGH;            // it's dark -> turn lamp ON
-      digitalWrite(lampPin, lampState);
-      lastToggle = millis();
-    } else if (sensorValue >= threshold && lampState == HIGH) {
-      lampState = LOW;             // it's bright -> turn lamp OFF
-      digitalWrite(lampPin, lampState);
-      lastToggle = millis();
-    }
+void loop()
+{
+  int Val = analogRead(A2);
+  Serial.println(Val);
+  if (Val < 500) {
+    digitalWrite(4, LOW);
   }
-
-  delay(150);
+  else {
+    digitalWrite(4, HIGH);
+  }
 }
 </code></pre>
         <p class="note">Tip: If you're using a relay module, ensure the relay coil supply and the Arduino share a common ground. For mains lamps, always follow safety rules and disconnect power while wiring.</p>
@@ -157,18 +143,23 @@ void loop() {
         <p>Replace names, roles, and photos with your actual team info.</p>
         <div class="team-grid">
           <div class="member">
-            <img src="assets/team-placeholder.svg" alt="Team Member 1" />
-            <h3>Member Name</h3>
+           
+            <h3>Manmeet kaur(1064)</h3>
             <p>Role — Hardware & Wiring</p>
           </div>
           <div class="member">
-            <img src="assets/team-placeholder.svg" alt="Team Member 2" />
-            <h3>Member Name</h3>
+            
+            <h3>Gursharan kaur(1021)</h3>
             <p>Role — Software & Arduino</p>
           </div>
           <div class="member">
-            <img src="assets/team-placeholder.svg" alt="Team Member 3" />
-            <h3>Member Name</h3>
+           
+            <h3>Jaskirat Kaur(1054)</h3>
+            <p>Role — Documentation & Demo</p>
+          </div>
+          <div class="member">
+            
+            <h3>Haseena sidhu(1027)</h3>
             <p>Role — Documentation & Demo</p>
           </div>
         </div>
@@ -190,7 +181,7 @@ void loop() {
 
   <footer class="site-footer">
     <div class="container">
-      <p>Automatic Night Lamp System — ready for your presentation. Replace placeholders with your images and team info.</p>
+      <p>&copy; 2024 Automatic Night Lamp System Project. All rights reserved.</p>
     </div>
   </footer>
 
