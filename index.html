@@ -1,78 +1,63 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Automatic Night Lamp System</title>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
   <link rel="stylesheet" href="css/styles.css">
-  <meta name="description" content="Automatic Night Lamp System: Smart lighting control using Arduino and LDR sensor" />
+  <meta name="description" content="Automatic Night Lamp System: turns a lamp ON in the dark and OFF in the light using an LDR and Arduino UNO." />
 </head>
 <body>
   <header class="site-header">
     <div class="container header-inner">
-      <h1 class="logo">Night Lamp System</h1>
-      <button class="mobile-nav-toggle">☰</button>
+      <h1 class="logo">Automatic Night Lamp System</h1>
       <nav class="nav">
-        <a href="#intro">Overview</a>
+        <a href="#intro">Introduction</a>
         <a href="#components">Components</a>
-        <a href="#steps">Build</a>
-        <a href="#code">Code</a>
+        <a href="#steps">Build Steps</a>
+        <a href="#software">Software</a>
+        <a href="#code">Arduino Code</a>
         <a href="#team">Team</a>
       </nav>
     </div>
   </header>
 
-  <section class="hero">
-    <div class="container">
-      <h1 style="font-size: 3.5rem; margin-bottom: 1.5rem;">Smart Lighting Control</h1>
-      <p class="lead" style="font-size: 1.5rem; max-width: 600px;">
-        An IoT project that automatically controls lighting based on ambient conditions, using Arduino and light sensors.
-      </p>
-    </div>
-  </section>
-
   <main>
     <section id="intro" class="panel reveal">
       <div class="container">
-        <h2>Project Overview</h2>
-        <p class="lead">Our Automatic Night Lamp System uses an LDR (Light Dependent Resistor) to detect ambient light levels and automatically control lighting. Perfect for energy saving and hands-free operation.</p>
+        <h2>Introduction</h2>
+        <p class="lead">This project automatically controls a lamp based on ambient light. The LDR senses light level and an Arduino UNO toggles a lamp via a relay (or an LED for demo). It’s perfect for energy saving, hands-free lighting, and IoT learning.</p>
       </div>
     </section>
 
-    <section id="components" class="panel alt reveal">
+    <section id="components" class="panel pale reveal">
       <div class="container">
-        <h2>Components Used</h2>
+        <h2>Components</h2>
+        <p>All the hardware used in the project (small icons provided):</p>
         <ul class="components-grid">
           <li>
             <img src="assets/breadboard.svg" alt="Mini Breadboard"/>
             <strong>Mini Breadboard</strong>
-            <span>For prototyping</span>
           </li>
           <li>
             <img src="assets/jumper.svg" alt="Jumper Wires"/>
             <strong>Jumper Wires</strong>
-            <span>Male & Female</span>
           </li>
           <li>
             <img src="assets/resistor.svg" alt="Resistor"/>
             <strong>Resistor</strong>
-            <span>For voltage division</span>
           </li>
           <li>
             <img src="assets/arduino.svg" alt="Arduino UNO"/>
             <strong>Arduino UNO</strong>
-            <span>Main controller</span>
           </li>
           <li>
             <img src="assets/ldr.svg" alt="LDR Sensor"/>
             <strong>LDR Sensor</strong>
-            <span>Light detection</span>
           </li>
           <li>
             <img src="assets/bulb.svg" alt="Bulb"/>
-            <strong>LED/Lamp</strong>
-            <span>Output device</span>
+            <strong>Bulb (lamp / relay)</strong>
           </li>
         </ul>
       </div>
@@ -80,44 +65,52 @@
 
     <section id="steps" class="panel reveal">
       <div class="container">
-        <h2>Build Instructions</h2>
-        <div class="steps-grid">
-          <div class="step">
-            <h3>1. Hardware Setup</h3>
+        <h2>Step-by-step Build Instructions</h2>
+        <ol class="steps">
+          <li><strong>Hardware Wiring</strong>
             <ul>
-              <li>Connect LDR to Arduino analog pin A0</li>
-              <li>Use voltage divider with resistor</li>
-              <li>Connect LED/relay to digital pin D8</li>
-              <li>Verify power connections</li>
+              <li>Place the Arduino and the mini breadboard.</li>
+              <li>Connect one leg of the LDR to 5V and the other leg to analog pin A0 via a resistor to ground (voltage divider).</li>
+              <li>Wire the relay module (or the lamp driver) to a digital pin (e.g., D8) and to an external power supply if the lamp needs higher voltage/current. For demo, you can use an LED + resistor on D8.</li>
+              <li>Double-check grounds: Arduino GND must be common with the sensor/relay module ground.</li>
             </ul>
-          </div>
-          <div class="step">
-            <h3>2. Software Upload</h3>
+          </li>
+          <li><strong>Software Upload</strong>
             <ul>
-              <li>Open Arduino IDE</li>
-              <li>Load the provided sketch</li>
-              <li>Select Arduino UNO board</li>
-              <li>Upload code</li>
+              <li>Open the Arduino IDE, paste the sketch from the <a href="#code">Arduino Code</a> section, select Arduino UNO, and upload.</li>
             </ul>
-          </div>
-          <div class="step">
-            <h3>3. Testing</h3>
+          </li>
+          <li><strong>Adjust Threshold</strong>
             <ul>
-              <li>Power up the system</li>
-              <li>Cover LDR to test dark state</li>
-              <li>Expose to light to test bright state</li>
-              <li>Adjust threshold if needed</li>
+              <li>Adjust the threshold value in the sketch to match your ambient light conditions.</li>
             </ul>
-          </div>
-        </div>
+          </li>
+          <li><strong>Test</strong>
+            <ul>
+              <li>Cover the LDR to simulate darkness — the lamp should switch ON. Uncover to switch OFF.</li>
+            </ul>
+          </li>
+        </ol>
       </div>
     </section>
 
-    <section id="code" class="panel alt reveal">
+    <section id="software" class="panel pale reveal">
       <div class="container">
-        <h2>Arduino Code</h2>
-        <div class="code-panel">
-          <pre><code>// Automatic Night Lamp System
+        <h2>Software & Tools Used</h2>
+        <ul>
+          <li>Arduino IDE — to compile & upload the sketch</li>
+          <li>Tinkercad — circuit prototyping and screenshots</li>
+          <li>Visual Studio Code — to edit the webpage files</li>
+          <li>Git/GitHub — (optional) for version control and deployment (GitHub Pages)</li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="code" class="panel code-panel reveal">
+      <div class="container">
+        <h2>Arduino Sketch</h2>
+        <p>Below is a tested example sketch that reads an LDR on A0 and toggles a lamp/relay on D8. Replace the threshold or pins to match your wiring.</p>
+        <pre><code class="arduino">// Automatic Night Lamp System
 // LDR on A0 (voltage divider). Relay or LED on D8.
 
 const int ldrPin = A0;      // LDR connected to analog pin A0
@@ -152,52 +145,52 @@ void loop() {
   }
 
   delay(150);
-}</code></pre>
-        </div>
+}
+</code></pre>
+        <p class="note">Tip: If you're using a relay module, ensure the relay coil supply and the Arduino share a common ground. For mains lamps, always follow safety rules and disconnect power while wiring.</p>
       </div>
     </section>
 
     <section id="team" class="panel reveal">
       <div class="container">
-        <h2>Our Team</h2>
+        <h2>Team Members</h2>
+        <p>Replace names, roles, and photos with your actual team info.</p>
         <div class="team-grid">
           <div class="member">
             <img src="assets/team-placeholder.svg" alt="Team Member 1" />
-            <h3>Name Here</h3>
-            <p>Hardware Design</p>
+            <h3>Member Name</h3>
+            <p>Role — Hardware & Wiring</p>
           </div>
           <div class="member">
             <img src="assets/team-placeholder.svg" alt="Team Member 2" />
-            <h3>Name Here</h3>
-            <p>Software Development</p>
+            <h3>Member Name</h3>
+            <p>Role — Software & Arduino</p>
           </div>
           <div class="member">
             <img src="assets/team-placeholder.svg" alt="Team Member 3" />
-            <h3>Name Here</h3>
-            <p>Documentation</p>
+            <h3>Member Name</h3>
+            <p>Role — Documentation & Demo</p>
           </div>
         </div>
       </div>
     </section>
 
-    <section id="gallery" class="panel alt reveal">
+    <section id="gallery" class="panel pale reveal">
       <div class="container">
-        <h2>Project Gallery</h2>
+        <h2>Project Images</h2>
+        <p>Place Tinkercad screenshots or real photos in the `assets/` folder and update the <code>&lt;img&gt;</code> tags here.</p>
         <div class="gallery-grid">
-          <div class="photo">
-            <img src="assets/placeholder-photo.svg" alt="Circuit Setup"/>
-          </div>
-          <div class="photo">
-            <img src="assets/placeholder-photo.svg" alt="Working Demo"/>
-          </div>
+          <div class="photo"> <img src="assets/placeholder-photo.svg" alt="Project Screenshot 1"></div>
+          <div class="photo"> <img src="assets/placeholder-photo.svg" alt="Project Screenshot 2"></div>
         </div>
       </div>
     </section>
+
   </main>
 
   <footer class="site-footer">
     <div class="container">
-      <p>© 2025 Automatic Night Lamp System — IoT Project</p>
+      <p>Automatic Night Lamp System — ready for your presentation. Replace placeholders with your images and team info.</p>
     </div>
   </footer>
 
