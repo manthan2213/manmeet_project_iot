@@ -81,4 +81,44 @@ document.addEventListener('DOMContentLoaded', function(){
   }, {threshold:0.12});
 
   document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+
+  // Lightbox functionality
+  const lightbox = document.getElementById('lightbox');
+  const lightboxImg = document.getElementById('lightbox-img');
+  const lightboxCaption = document.querySelector('.lightbox-caption');
+  const lightboxClose = document.querySelector('.lightbox-close');
+
+  // Open lightbox
+  document.querySelectorAll('.photo-wrapper').forEach(photo => {
+    photo.addEventListener('click', function() {
+      const img = this.querySelector('img');
+      const caption = this.parentElement.querySelector('figcaption').textContent;
+      
+      lightboxImg.src = img.src;
+      lightboxImg.alt = img.alt;
+      lightboxCaption.textContent = caption;
+      lightbox.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    });
+  });
+
+  // Close lightbox
+  function closeLightbox() {
+    lightbox.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  lightboxClose.addEventListener('click', closeLightbox);
+  lightbox.addEventListener('click', function(e) {
+    if (e.target === lightbox) {
+      closeLightbox();
+    }
+  });
+
+  // Close lightbox with Escape key
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && lightbox.classList.contains('active')) {
+      closeLightbox();
+    }
+  });
 });

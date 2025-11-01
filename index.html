@@ -118,24 +118,50 @@ This system provides an efficient, hands-free solution for smart lighting contro
         <h2>Arduino Sketch</h2>
         <p>Below is a tested example sketch that reads an LDR on A0 and toggles a lamp/relay on D8. Replace the threshold or pins to match your wiring.</p>
         <pre><code class="arduino">// Automatic Night Lamp System
-// C++ code
-//
-void setup()
-{
-  Serial.begin(9600);
-  pinMode(4, OUTPUT);
+int ldrPin = A0;     // LDR connected to analog pin A0
+int ledPin = 9;      // LED connected to digital pin 9
+
+int ldrValue = 0;    // current averaged LDR value
+
+// Adjust these thresholds for your environment
+int darkThreshold = 520;   // below this = dark
+int lightThreshold = 620;  // above this = bright
+
+bool ledState = false; // stores whether LED is ON or OFF
+
+// --- Function to get a smoothed average reading ---
+int readLDR() {
+  long sum = 0;
+  int samples = 20;   // number of samples to average
+  for (int i = 0; i < samples; i++) {
+    sum += analogRead(ldrPin);
+    delay(5);         // small delay for stability
+  }
+  return sum / samples;
 }
 
-void loop()
-{
-  int Val = analogRead(A2);
-  Serial.println(Val);
-  if (Val < 500) {
-    digitalWrite(4, LOW);
+void setup() {
+  pinMode(ledPin, OUTPUT);
+  Serial.begin(9600);
+}
+
+void loop() {
+  ldrValue = readLDR();       // get smoothed reading
+  Serial.println(ldrValue);   // show averaged value
+
+  // If it's dark and LED is OFF → turn it ON
+  if (ldrValue < darkThreshold && !ledState) {
+    digitalWrite(ledPin, HIGH);
+    ledState = true;
   }
-  else {
-    digitalWrite(4, HIGH);
+
+  // If it's bright and LED is ON → turn it OFF
+  else if (ldrValue > lightThreshold && ledState) {
+    digitalWrite(ledPin, LOW);
+    ledState = false;
   }
+
+  delay(200); // short pause between checks
 }
 </code></pre>
         <p class="note">Tip: If you're using a relay module, ensure the relay coil supply and the Arduino share a common ground. For mains lamps, always follow safety rules and disconnect power while wiring.</p>
@@ -174,11 +200,34 @@ void loop()
     <section id="gallery" class="panel pale reveal">
       <div class="container">
         <h2>Project Images</h2>
-        <p>Place Tinkercad screenshots or real photos in the `assets/` folder and update the <code>&lt;img&gt;</code> tags here.</p>
         <div class="gallery-grid">
-          <div class="photo"> <img src="assets/placeholder-photo.svg" alt="Project Screenshot 1"></div>
-          <div class="photo"> <img src="assets/placeholder-photo.svg" alt="Project Screenshot 2"></div>
+          <figure class="gallery-item">
+            <div class="photo-wrapper">
+              <img src="assets/simulation.jpg" alt="Circuit Diagram">
+              <div class="photo-overlay">
+                <span class="zoom-icon">🔍</span>
+              </div>
+            </div>
+            <figcaption>Circuit Diagram - Automatic Night Lamp Setup</figcaption>
+          </figure>
+          <figure class="gallery-item">
+            <div class="photo-wrapper">
+              <img src="assets/project1.jpg" alt="First Image">
+              <div class="photo-overlay">
+                <span class="zoom-icon">🔍</span>
+              </div>
+            </div>
+            <figcaption>Project from top angle</figcaption>
+          </figure>
+         
         </div>
+      </div>
+
+      <!-- Lightbox Modal -->
+      <div class="lightbox" id="lightbox">
+        <span class="lightbox-close">&times;</span>
+        <img class="lightbox-content" id="lightbox-img">
+        <div class="lightbox-caption"></div>
       </div>
     </section>
 
